@@ -1,4 +1,4 @@
-# Cohorte FT48 - Módulo 4
+# Cohorte FSFT53 - Módulo 4
 
 ## TypeScript
 
@@ -8,7 +8,7 @@
 ## Nest
 
 - [Nest JS - Documentación Oficial](https://nestjs.com/)
-- [CLI - Command Line Interface]()
+- [CLI - Command Line Interface](./readmes/NestJS-CLI.md)
 - [Configuración](./readmes/NestJS-Configuration.md)
 - [Decoradores (Decorators)](./readmes/NestJS-Decorators.md)
 - [Implementar Morgan en Nest JS](./readmes/NestJS-Morgan.md)

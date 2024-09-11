@@ -8,5 +8,11 @@ import { TodoModule } from './modules/todos.module';
   imports: [UserModule, TodoModule], //* lista de módulos
   controllers: [AppController],
   providers: [AppService],
+  // providers: [
+  //   {
+  //     provide: AppService,
+  //     useClass: AppService,
+  //   },
+  // ],
 })
 export class AppModule {}
