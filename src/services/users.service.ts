@@ -13,4 +13,16 @@ export class UserService {
     const allUsers = [...dbUsers, ...this.api_users];
     return allUsers;
   }
+
+  getUser(id: string) {
+    return this.usersRepository.getUser(id);
+  }
+
+  getByName(name: string) {
+    return this.usersRepository.getByName(name);
+  }
+
+  createUser(user: any) {
+    return this.usersRepository.createUser(user);
+  }
 }
