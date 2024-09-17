@@ -5,7 +5,11 @@ import {
   Get,
   Headers,
   HttpCode,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -14,6 +18,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { UserBodyDto } from 'src/dtos/userBody.dto';
 import { UserAuthGuard } from 'src/guards/user-auth.guard';
 import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
 import { UserDbService } from 'src/services/user-db.service';
@@ -64,14 +69,20 @@ export class UserController {
   }
 
   @Get(':id')
-  getUser(@Param('id') id: string) {
-    return this.userService.getUser(id);
+  async getUser(@Param('id', ParseUUIDPipe) id: string) {
+    const user = await this.userDBService.getUser(id);
+
+    console.log(user);
+
+    if (!user) throw new NotFoundException('Usuario no encontrado');
+
+    return user;
   }
 
   @Post()
   @UseInterceptors(DateAdderInterceptor)
-  createUser(@Body() user: any, @Req() request) {
-    const modifiedUser = { ...user, createAt: request.now };
+  createUser(@Body() user: UserBodyDto, @Req() request) {
+    const modifiedUser = { ...user, createdAt: request.now };
     // return this.userService.createUser(modifiedUser);
     return this.userDBService.create(modifiedUser);
   }
@@ -83,6 +94,17 @@ export class UserController {
 
   @Delete()
   deleteUser() {
-    return 'Esta ruta elimina un usuario';
+    // throw Error();
+    try {
+      throw Error();
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.I_AM_A_TEAPOT,
+          error: 'Envío de cafecito fallido',
+        },
+        HttpStatus.I_AM_A_TEAPOT,
+      );
+    }
   }
 }
