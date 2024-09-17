@@ -2,9 +2,13 @@ import {
   Controller,
   Get,
   Param,
+  Post,
+  UploadedFile,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { TodoService } from 'src/services/todos.service';
 
 @Controller('todos')
@@ -22,5 +26,17 @@ export class TodoController {
     console.log(id);
 
     return `Este es el todo con el id ${id}`;
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    await this.todoService.saveFile(
+      file.originalname,
+      file.mimetype,
+      file.buffer,
+    );
+
+    return 'Archivo guardado';
   }
 }
