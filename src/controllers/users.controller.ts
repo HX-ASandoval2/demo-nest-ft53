@@ -25,29 +25,34 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserBodyDto } from 'src/dtos/userBody.dto';
+import { UserSignDto } from 'src/dtos/usersBody.dto';
 import { UserAuthGuard } from 'src/guards/user-auth.guard';
 import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
 import { MinSizeValidationPipe } from 'src/pipes/MinSizeValidator.pipes';
+import { AuthService } from 'src/services/auth.service';
 import { CloudinaryService } from 'src/services/cloudinary.service';
 import { UserDbService } from 'src/services/user-db.service';
 import { UserService } from 'src/services/users.service';
 
 @Controller('users')
-@UseGuards(UserAuthGuard)
+// @UseGuards(UserAuthGuard)
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly userDBService: UserDbService,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly authService: AuthService,
   ) {}
 
   @Get()
+  @UseGuards(UserAuthGuard)
   getUsers(@Query('name') name: string): any {
     if (name) return this.userService.getByName(name);
     return this.userService.getUsers();
   }
 
   @Get('profile')
+  @UseGuards(UserAuthGuard)
   getUserProfile(@Headers('token') token: string) {
     if (token !== '1234') return 'Acceso denegado';
     return 'Esta ruta devuelve el perfil del usuario';
@@ -78,6 +83,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(UserAuthGuard)
   async getUser(@Param('id', ParseUUIDPipe) id: string) {
     const user = await this.userDBService.getUser(id);
 
@@ -93,7 +99,13 @@ export class UserController {
   createUser(@Body() user: UserBodyDto, @Req() request) {
     const modifiedUser = { ...user, createdAt: request.now };
     // return this.userService.createUser(modifiedUser);
-    return this.userDBService.create(modifiedUser);
+    // return this.userDBService.create(modifiedUser);
+    return this.authService.signUp(modifiedUser);
+  }
+
+  @Post('signin')
+  signIn(@Body() user: UserSignDto) {
+    return this.authService.signIn(user.email, user.password);
   }
 
   @Post('profile/images')

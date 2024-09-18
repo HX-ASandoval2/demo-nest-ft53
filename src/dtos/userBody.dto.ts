@@ -1,4 +1,11 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  // IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsStrongPassword,
+  Length,
+} from 'class-validator';
 
 export class UserBodyDto {
   id: string;
@@ -12,8 +19,14 @@ export class UserBodyDto {
   @IsEmail()
   email: string;
 
+  @IsNotEmpty()
+  @IsString()
+  @IsStrongPassword()
+  @Length(4, 10)
+  password: string;
+
   createdAt: string;
 
-  @IsBoolean()
-  isAdmin: boolean;
+  // @IsBoolean()
+  // isAdmin: boolean;
 }

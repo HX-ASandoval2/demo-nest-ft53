@@ -5,6 +5,7 @@ import { UserController } from 'src/controllers/users.controller';
 import { User } from 'src/entities/user.entity';
 import { LoggerMiddleware } from 'src/middlewares/logger';
 import { UserRepository } from 'src/repositories/users.repository';
+import { AuthService } from 'src/services/auth.service';
 import { CloudinaryService } from 'src/services/cloudinary.service';
 import { UserDbService } from 'src/services/user-db.service';
 import { UserService } from 'src/services/users.service';
@@ -26,6 +27,7 @@ import { UserService } from 'src/services/users.service';
     UserDbService,
     CloudinaryConfig,
     CloudinaryService,
+    AuthService,
     {
       provide: 'API_USERS',
       useFactory: async () => {
