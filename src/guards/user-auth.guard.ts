@@ -27,7 +27,11 @@ export class UserAuthGuard implements CanActivate {
       payload.exp = new Date(payload.exp * 1000);
       payload.iat = new Date(payload.iat * 1000);
 
-      // console.log(payload);
+      //? damos el permiso de admin
+      payload.roles = ['user'];
+
+      //? guardar el objetito payload en una propiedad de la request:
+      request.user = payload;
       return true;
     } catch (error) {
       throw new UnauthorizedException('Invalid token');

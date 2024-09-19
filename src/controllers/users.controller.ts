@@ -24,11 +24,14 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles } from 'src/decorators/roles.decorator';
 import { UserBodyDto } from 'src/dtos/userBody.dto';
 import { UserSignDto } from 'src/dtos/usersBody.dto';
+import { RolesGuard } from 'src/guards/roles.guard';
 import { UserAuthGuard } from 'src/guards/user-auth.guard';
 import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
 import { MinSizeValidationPipe } from 'src/pipes/MinSizeValidator.pipes';
+import { Role } from 'src/role.enum';
 import { AuthService } from 'src/services/auth.service';
 import { CloudinaryService } from 'src/services/cloudinary.service';
 import { UserDbService } from 'src/services/user-db.service';
@@ -80,6 +83,13 @@ export class UserController {
     console.log(request);
 
     return 'Esta ruta devuelve la request';
+  }
+
+  @Get('dashboard')
+  @Roles(Role.Admin) //* 'admin'
+  @UseGuards(UserAuthGuard, RolesGuard)
+  getAdmin() {
+    return 'Datos del panel de administrador';
   }
 
   @Get(':id')
