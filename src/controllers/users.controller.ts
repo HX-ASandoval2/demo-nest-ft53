@@ -24,18 +24,18 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Roles } from 'src/decorators/roles.decorator';
-import { UserBodyDto } from 'src/dtos/userBody.dto';
-import { UserSignDto } from 'src/dtos/usersBody.dto';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { UserAuthGuard } from 'src/guards/user-auth.guard';
-import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
-import { MinSizeValidationPipe } from 'src/pipes/MinSizeValidator.pipes';
-import { Role } from 'src/role.enum';
-import { AuthService } from 'src/services/auth.service';
-import { CloudinaryService } from 'src/services/cloudinary.service';
-import { UserDbService } from 'src/services/user-db.service';
-import { UserService } from 'src/services/users.service';
+import { Roles } from '../decorators/roles.decorator';
+import { UserBodyDto } from '../dtos/userBody.dto';
+import { UserSignDto } from '../dtos/usersBody.dto';
+import { RolesGuard } from '../guards/roles.guard';
+import { UserAuthGuard } from '../guards/user-auth.guard';
+import { DateAdderInterceptor } from '../interceptors/date-adder.interceptor';
+import { MinSizeValidationPipe } from '../pipes/MinSizeValidator.pipes';
+import { Role } from '../role.enum';
+import { AuthService } from '../services/auth.service';
+import { CloudinaryService } from '../services/cloudinary.service';
+import { UserDbService } from '../services/user-db.service';
+import { UserService } from '../services/users.service';
 
 @Controller('users')
 // @UseGuards(UserAuthGuard)

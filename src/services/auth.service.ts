@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserDbService } from './user-db.service';
-import { User } from 'src/entities/user.entity';
+import { User } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
@@ -23,9 +23,10 @@ export class AuthService {
     if (!hashedPassword)
       throw new BadRequestException('La contraseña no pudo ser hasheada');
 
-    this.userDBService.create({ ...user, password: hashedPassword });
-
-    return 'El usuario se ha creado satisfactoriamente';
+    return await this.userDBService.create({
+      ...user,
+      password: hashedPassword,
+    });
   }
 
   //? Inicio de sesión del usuario:

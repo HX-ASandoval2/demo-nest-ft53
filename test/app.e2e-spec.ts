@@ -21,4 +21,18 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect('Hello World!');
   });
+
+  it('/todos (GET) returns an array of todos with status code 200', async () => {
+    const req = await request(app.getHttpServer()).get('/todos/');
+
+    //PARA RUTAS PROTEGIDAS
+    //.overrideGuard(AuthGuard)
+    // .useValue({
+    //   canActivate: () => true,
+
+    console.log(req.body);
+
+    expect(req.status).toBe(200);
+    expect(req.body).toBeInstanceOf(Array);
+  });
 });
