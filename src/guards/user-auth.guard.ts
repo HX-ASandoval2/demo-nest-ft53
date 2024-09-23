@@ -28,7 +28,7 @@ export class UserAuthGuard implements CanActivate {
       payload.iat = new Date(payload.iat * 1000);
 
       //? damos el permiso de admin
-      payload.roles = ['user'];
+      payload.roles = ['admin'];
 
       //? guardar el objetito payload en una propiedad de la request:
       request.user = payload;

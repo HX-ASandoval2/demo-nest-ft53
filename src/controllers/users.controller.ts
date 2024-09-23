@@ -24,9 +24,9 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UserBodyDto } from 'src/dtos/userBody.dto';
-import { UserSignDto } from 'src/dtos/usersBody.dto';
+import { UserBodyDto, UserSignInDto } from 'src/dtos/userBody.dto';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { UserAuthGuard } from 'src/guards/user-auth.guard';
 import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
@@ -37,6 +37,7 @@ import { CloudinaryService } from 'src/services/cloudinary.service';
 import { UserDbService } from 'src/services/user-db.service';
 import { UserService } from 'src/services/users.service';
 
+@ApiTags('users')
 @Controller('users')
 // @UseGuards(UserAuthGuard)
 export class UserController {
@@ -85,6 +86,7 @@ export class UserController {
     return 'Esta ruta devuelve la request';
   }
 
+  @ApiBearerAuth()
   @Get('dashboard')
   @Roles(Role.Admin) //* 'admin'
   @UseGuards(UserAuthGuard, RolesGuard)
@@ -114,7 +116,7 @@ export class UserController {
   }
 
   @Post('signin')
-  signIn(@Body() user: UserSignDto) {
+  signIn(@Body() user: UserSignInDto) {
     return this.authService.signIn(user.email, user.password);
   }
 

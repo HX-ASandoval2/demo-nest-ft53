@@ -9,8 +9,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { TodoService } from 'src/services/todos.service';
 
+@ApiTags('todos')
 @Controller('todos')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
